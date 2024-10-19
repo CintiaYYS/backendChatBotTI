@@ -1,3 +1,5 @@
+import ServicoDAO from "../DB/ServicoDAO.js"
+
 export default class Servico{
     #id
     #nome
@@ -87,9 +89,24 @@ export default class Servico{
         }
     }
 
-    async gravar(){}
-    async alterar(){}
-    async excluir(){}
-    async consultar(){}
+    async gravar(){
+        const servDAO = new ServicoDAO();
+        await servDAO.gravar(this);
+    }
+
+    async alterar(){
+        const servDAO = new ServicoDAO();
+        await servDAO.alterar(this);
+    }
+
+    async excluir(){
+        const servDAO = new ServicoDAO();
+        await servDAO.excluir(this);
+    }
+
+    async consultar(){
+        const servDAO = new ServicoDAO();
+        return await servDAO.consultar(this);
+    }
 
 }

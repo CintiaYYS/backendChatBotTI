@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use("/servico",rotaServico);
-app.unsubscribe("/webhook",rotaDF)
+app.use("/webhook",rotaDF);
 
 const host = "localhost";
 const porta = "3000";

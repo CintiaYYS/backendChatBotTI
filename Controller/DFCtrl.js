@@ -1,4 +1,5 @@
 import {obterCardsServicos} from "../DialogFlow/funcoes.js"
+import Chamado from "../Model/Chamado.js";
 import Servico from "../Model/Servico.js";
 
 export default class DFContoller{
@@ -19,6 +20,14 @@ export default class DFContoller{
                 case 'SelecaoSuporte':
                     resposta = await processarEscolha(dados,origem);                    
                     break;
+                /*
+                case 'coletaDadosDemandante':
+                    resposta = await idenificarUsuario(dados,origem);
+                    break;
+                */
+               case 'simConcluirDemanda':
+                resposta = await registrarChamado(dados,origem);
+                break;
             }
             resp.json(resposta);                    
         }
@@ -154,4 +163,50 @@ async function processarEscolha(dados, origem) { // Aplicar um try catch
             }
         });
     }
+}
+
+async function registrarChamado(dados, origem){
+    const sessao = dados.session.split('/').pop();
+    //Fique atento será necessário recuperar o usuário identificado na sessao
+    //simulando a existência de um usuário cadastrado
+    const usuario = {
+        "cpf":"111.111.111-11"
+    }
+    const listaServicos = [];
+    const servicosSelecionados = global.dados[sessao]['servicos'];
+    const servicoM = new Servico();
+    for (const serv of servicosSelecionados){
+        const busca = await servicoM.consultar(serv);
+        if (busca.length > 0){
+            listaServicos.push(busca[0]);
+        }
+    }
+    const chamado = new Chamado(0,'',usuario,listaServicos);
+    await chamado.gravar();
+
+    let resposta = {
+        "fulfillmentMessages": []
+    }
+
+    if (origem) {
+        resposta['fulfillmentMessages'].push({
+            "text": {
+                "text" :[`Chamado nº ${chamado.numero} registrado com sucesso.\n`,
+                    "Anote seu número para consulta ou acompanhamento posterior."
+                ]
+            }
+        });
+    } else {
+        resposta.fulfillmentMessages.push({
+            "payload": {
+                "richContent": [[{
+                    "type": "description",
+                    "title": "",
+                    "text": [`Chamado nº ${chamado.numero} registrado com sucesso.\n`,
+                    "Anote seu número para consulta ou acompanhamento posterior."]
+                }]]
+            }
+        });
+    }
+    return resposta;
 }

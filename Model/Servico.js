@@ -104,9 +104,9 @@ export default class Servico{
         await servDAO.excluir(this);
     }
 
-    async consultar(){
+    async consultar(termoBusca){
         const servDAO = new ServicoDAO();
-        return await servDAO.consultar(this);
+        return await servDAO.consultar(termoBusca);
     }
 
 }

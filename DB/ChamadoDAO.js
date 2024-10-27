@@ -31,7 +31,7 @@ export default class ChamadoDAO {
                 const resultado = await conexao.execute(sqlChamado, parametros);
                 chamado.numero = resultado[0].insertId;
                 for (const serv of chamado.servicos) {
-                    const sqlServicos = "insert into chamado_servico(fk_cha_numero,fk_serv_id VALUES(?,?);"
+                    const sqlServicos = "insert into chamado_servico(fk_cha_numero,fk_serv_id) VALUES(?,?);"
                     parametros = [chamado.numero, serv.id];
                     conexao.execute(sqlServicos, parametros);
                 }

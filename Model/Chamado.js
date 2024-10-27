@@ -57,9 +57,8 @@ export default class Chamado{
         };
     }
 
-}
-
-async function gravar() {
-    const chamDAO = ChamadoDAO();
-    await chamDAO.gravar(this);
+    async gravar() {
+        const chamDAO = new ChamadoDAO();
+        await chamDAO.gravar(this);
+    }
 }

@@ -43,7 +43,7 @@ async function exibirMenu(tipo=''){
     try{
         let cards = await obterCardsServicos(tipo);
         
-        if (tipo == 'custom'){                            
+        if (tipo == 'DIALOGFLOW_CONSOLE'){                            
             resposta['fulfillmentMessages'].push({
                 "text":{
                     "text":["Seja bem-vindo ao Suporte de TI. \n",
@@ -84,7 +84,7 @@ async function exibirMenu(tipo=''){
             return resposta;
         }
     }catch(erro){
-    if(tipo == 'custom'){
+    if(tipo == 'DIALOGFLOW_CONSOLE'){
         resposta['fulfillmentMessages'].push({
             "text":{
                 "text":["Não foi possível recuperar a lista de suporte dos serviços.\n",

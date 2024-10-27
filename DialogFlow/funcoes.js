@@ -32,7 +32,7 @@ export function criarCustomCard(){
     
 } // fim da função criarCustomCard
 
-export async function obterCardsServicos(tipoCard="custom"){
+export async function obterCardsServicos(tipoCard="DIALOGFLOW_CONSOLE"){
 
     const listaCardsServicos = [];
     const servico = new Servico();
@@ -41,7 +41,7 @@ export async function obterCardsServicos(tipoCard="custom"){
     for (const servico of servicos){
 
         let card;
-        if (tipoCard=="custom"){
+        if (tipoCard=="DIALOGFLOW_CONSOLE"){
             card = criarCustomCard();
             card.card.title = servico.nome;
             card.card.subtitle = `Descrição: ${servico.descricao} \n 
